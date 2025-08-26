@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>日本宅建士思維導圖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+      background: #f9fafb;
+    }
+    .container {
+      padding: 1rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    #mindmap-box {
+      width: 100%;
+      height: 600px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #fff;
+      cursor: grab;
+    }
+    #mindmap-inner {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    svg text {
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>思維導圖：日本宅建士學習框架</h1>
+    <div class="note">提示：可拖曳導圖視圖，節點層級為「中心 → 四大分野 → 章節 → 高頻子題」</div>
+    <div id="mindmap-box">
+      <div id="mindmap-inner">
+        <svg width="1600" height="900">
+          <!-- 中心 -->
+          <rect x="750" y="50" width="100" height="40" rx="8" fill="#eef2ff" stroke="#ccc"/>
+          <text x="800" y="75" text-anchor="middle" font-weight="700">日本宅建士</text>
+
+          <!-- 四大分野 -->
+          <line x1="800" y1="90" x2="400" y2="200" stroke="#999"/>
+          <rect x="300" y="200" width="200" height="40" rx="8" fill="#ecfdf3" stroke="#ccc"/>
+          <text x="400" y="225" text-anchor="middle">民法等</text>
+
+          <line x1="800" y1="90" x2="1200" y2="200" stroke="#999"/>
+          <rect x="1100" y="200" width="200" height="40" rx="8" fill="#fff7e6" stroke="#ccc"/>
+          <text x="1200" y="225" text-anchor="middle">宅建業法</text>
+
+          <line x1="800" y1="90" x2="400" y2="500" stroke="#999"/>
+          <rect x="300" y="500" width="200" height="40" rx="8" fill="#fff7e6" stroke="#ccc"/>
+          <text x="400" y="525" text-anchor="middle">法令上の制限</text>
+
+          <line x1="800" y1="90" x2="1200" y2="500" stroke="#999"/>
+          <rect x="1100" y="500" width="200" height="40" rx="8" fill="#ecfdf3" stroke="#ccc"/>
+          <text x="1200" y="525" text-anchor="middle">其他相關知識</text>
+
+          <!-- 民法等章節 -->
+          <line x1="400" y1="240" x2="200" y2="300" stroke="#bbb"/>
+          <rect x="120" y="300" width="160" height="30" rx="6" fill="#fff" stroke="#ccc"/>
+          <text x="200" y="320" text-anchor="middle" font-size="12">總則・代理・時效</text>
+
+          <line x1="400" y1="240" x2="200" y2="360" stroke="#bbb"/>
+          <rect x="120" y="360" width="160" height="30" rx="6" fill="#fff" stroke="#ccc"/>
+          <text x="200" y="380" text-anchor="middle" font-size="12">物權・抵押・地役</text>
+
+          <!-- 高頻子題示例 -->
+          <line x1="200" y1="330" x2="60" y2="330" stroke="#ccc"/>
+          <rect x="0" y="315" width="60" height="30" rx="4" fill="#fff1f1" stroke="#ccc"/>
+          <text x="30" y="335" text-anchor="middle" font-size="10">錯誤/詐欺</text>
+
+          <line x1="200" y1="390" x2="60" y2="390" stroke="#ccc"/>
+          <rect x="0" y="375" width="60" height="30" rx="4" fill="#fff1f1" stroke="#ccc"/>
+          <text x="30" y="395" text-anchor="middle" font-size="10">善意取得</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const box = document.getElementById('mindmap-box');
+      const inner = document.getElementById('mindmap-inner');
+      let isDown = false;
+      let startX, startY;
+
+      box.addEventListener('mousedown', e => {
+        isDown = true;
+        box.style.cursor = 'grabbing';
+        startX = e.pageX - inner.offsetLeft;
+        startY = e.pageY - inner.offsetTop;
+      });
+      box.addEventListener('mouseup', () => {
+        isDown = false;
+        box.style.cursor = 'grab';
+      });
+      box.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - startX;
+        const y = e.pageY - startY;
+        inner.style.left = x + 'px';
+        inner.style.top = y + 'px';
+      });
+
+      box.addEventListener('touchstart', e => {
+        isDown = true;
+        startX = e.touches[0].pageX - inner.offsetLeft;
+        startY = e.touches[0].pageY - inner.offsetTop;
+      });
+      box.addEventListener('touchend', () => {
+        isDown = false;
+      });
+      box.addEventListener('touchmove', e => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - startX;
+        const y = e.touches[0].pageY - startY;
+        inner.style.left = x + 'px';
+        inner.style.top = y + 'px';
+      });
+    })();
+  </script>
+</body>
+</html>
